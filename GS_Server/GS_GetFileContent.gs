@@ -38,7 +38,7 @@ try{
   urlEnding = '/repos/' + userPlusRepoName + '/contents/' + path;
   
   url = apiBaseUrl + urlEnding;
-  //Logger.log('url 39: ' + url)
+  Logger.log('url 41: ' + url)
   
   myToken = getGitHubToken_();
   
@@ -54,19 +54,13 @@ try{
       Authorization: "Bearer " + myToken
     }
   }
-    
+
   //Logger.log('options 57: ' + JSON.stringify(options))
   
   rslt = UrlFetchApp.fetch(url,options);
 
   rspnsCode = rslt.getResponseCode();
-  //Logger.log('rspnsCode 63: ' + rspnsCode)
-  
-  if (rspnsCode !== 200 && rspnsCode !== 201) {
-    return rslt;//Dont throw an error here - if there is a reason to stop processing and return an error to
-    //the user - determine that at a higher level function - If there is no file found in GitHub then the code may need
-    //to create a new file instead of failing
-  }
+  Logger.log('rspnsCode 63: ' + rspnsCode)
   
   //Logger.log('rslt.getContentText() 67: ' + rslt.getContentText())
   //Logger.log('typeof rslt 68: ' + typeof rslt)
@@ -74,9 +68,15 @@ try{
   data = JSON.parse(rslt);//Even though the returned value is an object it must be parsed into JSON
   
   //Logger.log('data.size ' + data.size)
-  //Logger.log('data.name ' + data.name)
+  Logger.log('data.name ' + data.name)
   //Logger.log('data.content: ' + data.content)
   
+  if (rspnsCode !== 200 && rspnsCode !== 201) {
+    return 'Response coming back from GitHub is: ' + rspnsCode + "\n\n" + data.message;//Dont throw an error here - if there is a reason to stop processing and return an error to
+    //the user - determine that at a higher level function - If there is no file found in GitHub then the code may need
+    //to create a new file instead of failing
+  }
+
   if (po.getJustSHA) {
     Logger.log('data.sha: ' + data.sha)
     return data.sha;
