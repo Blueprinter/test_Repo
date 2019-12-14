@@ -14,6 +14,7 @@ try{
     "idActionChoice":"commitDescription",
     "idRepoName":"repoName",
     "idFileName":"fileName",
+    "idFolderName":"folders",
     "idActionDescription":"commitDescription",
     "idIsPrivateRepo":"private",
     "idTokenID":"true",
@@ -64,6 +65,7 @@ try{
   Logger.log('rslt 64: ' + rslt)
   
   if (rslt !== true) {
+    Logger.log('should stringify')
     rslt = JSON.stringify(rslt);
   }
   return rslt;
