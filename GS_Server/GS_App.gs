@@ -44,7 +44,7 @@ function pushAllFilesToRepo_(po) {
       folder = "GS_Server";
     } else {
       if (thisFile.name.indexOf('appsscript') !== -1) {
-        name = thisFile.name;
+        name = thisFile.name + ".json";
         preFix = 'manifest';
       } else {
         name = thisFile.name + '.html';
