@@ -1,6 +1,6 @@
 function deleteOneFile_(po) {
 try{
-  var apiBaseUrl,data,myToken,options,pathAndFile,payload,rslt,rspnsCode,url;
+  var apiBaseUrl,data,myToken,options,path,payload,rslt,rspnsCode,url;
   
   /*
     https://developer.github.com/v3/repos/contents/#delete-a-file
@@ -12,10 +12,12 @@ try{
     po.commitDescription - description of deletion
     po.branch - optional - defaults to master
     po.sha - file sha - if not passed in then the code will get the file and get the sha
-    po.path - The folder name or names under the repo name that the file is in
+    po.folders - A folder or folder tree that the file is in
+    po.path - The folder name or names under the repo name that the file is in PLUS the file name - the path is both folder and file
+    not just the folder name
   */
   
-  Logger.log('po 18: ' + JSON.stringify(po))
+  //Logger.log('po 18: ' + JSON.stringify(po))
   
   if (!po.repoName) {
     throw new Error('No repoName passed in');
@@ -27,6 +29,7 @@ try{
     
     if (typeof po.sha === 'object') {//There was an error - if the file is not found then there is no point
       //in running anymore code
+      Logger.log('po.sha 30: ' + po.sha)
       return po.sha;
     }
   }
@@ -43,9 +46,13 @@ try{
     po.commitDescription = 'Delete a file';
   }
   
-  pathAndFile = po.path ? po.path : po.fileName;//If there is a path - it includes the file name
+  if (po.path) {//If there is a path - it includes the file name
+    path = po.path;
+  } else {
+    path = po.folders ? po.folders + "/" + po.fileName : po.fileName; 
+  }
   
-  url = apiBaseUrl + "/repos/" + po.userName + "/" + po.repoName + "/contents/" + pathAndFile;
+  url = apiBaseUrl + "/repos/" + po.userName + "/" + po.repoName + "/contents/" + path;
   Logger.log('url 44: ' + url)
 
   myToken = getGitHubToken_();
