@@ -32,7 +32,7 @@ function pushAllFilesToRepo_(po) {
   for (i=0;i<L;i++) {//Loop through every file in the Apps Script project
     thisFile = allFiles[i];//One inner file of data which is a JSON object
     
-    //Logger.log('thisFile.name 34: ' + thisFile.name)
+    Logger.log('thisFile.name 35: ' + thisFile.name)
     
     if (!thisFile) {continue;}
     
@@ -43,7 +43,7 @@ function pushAllFilesToRepo_(po) {
       name = thisFile.name + '.gs';
       folder = "GS_Server";
     } else {
-      if (thisFile.name === 'appsscript.json') {
+      if (thisFile.name.indexOf('appsscript') !== -1) {
         name = thisFile.name;
         preFix = 'manifest';
       } else {
